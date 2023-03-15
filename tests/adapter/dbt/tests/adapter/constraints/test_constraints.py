@@ -295,7 +295,7 @@ class BaseConstraintsRollback:
         self.assert_expected_error_messages(failing_results[0].message, expected_error_messages)
 
 
-class TestTableConstraintsColumnsEqual(BaseConstraintsColumnsEqual):
+class BaseTableConstraintsColumnsEqual(BaseConstraintsColumnsEqual):
     @pytest.fixture(scope="class")
     def models(self):
         return {
@@ -305,7 +305,7 @@ class TestTableConstraintsColumnsEqual(BaseConstraintsColumnsEqual):
         }
 
 
-class TestViewConstraintsColumnsEqual(BaseConstraintsColumnsEqual):
+class BaseViewConstraintsColumnsEqual(BaseConstraintsColumnsEqual):
     @pytest.fixture(scope="class")
     def models(self):
         return {
@@ -315,7 +315,7 @@ class TestViewConstraintsColumnsEqual(BaseConstraintsColumnsEqual):
         }
 
 
-class TestIncrementalConstraintsColumnsEqual(BaseConstraintsColumnsEqual):
+class BaseIncrementalConstraintsColumnsEqual(BaseConstraintsColumnsEqual):
     @pytest.fixture(scope="class")
     def models(self):
         return {
@@ -325,15 +325,7 @@ class TestIncrementalConstraintsColumnsEqual(BaseConstraintsColumnsEqual):
         }
 
 
-class TestTableConstraintsRuntimeDdlEnforcement(BaseConstraintsRuntimeDdlEnforcement):
-    pass
-
-
-class TestTableConstraintsRollback(BaseConstraintsRollback):
-    pass
-
-
-class TestIncrementalConstraintsRuntimeEnforcement(BaseConstraintsRuntimeDdlEnforcement):
+class BaseIncrementalConstraintsRuntimeEnforcement(BaseConstraintsRuntimeDdlEnforcement):
     @pytest.fixture(scope="class")
     def models(self):
         return {
@@ -342,7 +334,7 @@ class TestIncrementalConstraintsRuntimeEnforcement(BaseConstraintsRuntimeDdlEnfo
         }
 
 
-class TestIncrementalConstraintsRollback(BaseConstraintsRollback):
+class BaseIncrementalConstraintsRollback(BaseConstraintsRollback):
     @pytest.fixture(scope="class")
     def models(self):
         return {
@@ -353,3 +345,31 @@ class TestIncrementalConstraintsRollback(BaseConstraintsRollback):
     @pytest.fixture(scope="class")
     def null_model_sql(self):
         return my_model_incremental_with_nulls_sql
+
+
+class TestTableConstraintsColumnsEqual(BaseTableConstraintsColumnsEqual):
+    pass
+
+
+class TestViewConstraintsColumnsEqual(BaseViewConstraintsColumnsEqual):
+    pass
+
+
+class TestIncrementalConstraintsColumnsEqual(BaseIncrementalConstraintsColumnsEqual):
+    pass
+
+
+class TestTableConstraintsRuntimeDdlEnforcement(BaseConstraintsRuntimeDdlEnforcement):
+    pass
+
+
+class TestTableConstraintsRollback(BaseConstraintsRollback):
+    pass
+
+
+class TestIncrementalConstraintsRuntimeEnforcement(BaseIncrementalConstraintsRuntimeEnforcement):
+    pass
+
+
+class TestIncrementalConstraintsRollback(BaseIncrementalConstraintsRollback):
+    pass
