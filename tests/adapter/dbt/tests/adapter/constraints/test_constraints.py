@@ -180,26 +180,6 @@ class BaseConstraintsColumnsEqual:
             assert contract_actual_config is True
 
 
-# This is SUPER specific to Postgres, and will need replacing on other adapters
-_expected_sql = """
-create table <model_identifier> (
-    id integer not null primary key check (id > 0) ,
-    color text ,
-    date_day date
-) ;
-insert into <model_identifier> (
-    id ,
-    color ,
-    date_day
-) (
-    select
-        1 as id,
-        'blue' as color,
-        cast('2019-01-01' as date) as date_day
-);
-"""
-
-
 class BaseConstraintsRuntimeDdlEnforcement:
     """
     These constraints pass muster for dbt's preflight checks. Make sure they're
@@ -214,7 +194,27 @@ class BaseConstraintsRuntimeDdlEnforcement:
             "constraints_schema.yml": model_schema_yml,
         }
 
-    def test__constraints_ddl(self, project):
+    @pytest.fixture(scope="class")
+    def expected_sql(self):
+        return """
+            create table <model_identifier> (
+                id integer not null primary key check (id > 0) ,
+                color text ,
+                date_day date
+            ) ;
+            insert into <model_identifier> (
+                id ,
+                color ,
+                date_day
+            ) (
+                select
+                    1 as id,
+                    'blue' as color,
+                    cast('2019-01-01' as date) as date_day
+            );
+            """
+
+    def test__constraints_ddl(self, project, expected_sql):
         results = run_dbt(["run", "-s", "my_model"])
         assert len(results) == 1
 
@@ -228,7 +228,7 @@ class BaseConstraintsRuntimeDdlEnforcement:
             generated_sql_list[idx] = "<model_identifier>"
         generated_sql_generic = " ".join(generated_sql_list)
 
-        expected_sql_check = re.sub(r"\s+", " ", _expected_sql).lower().strip()
+        expected_sql_check = re.sub(r"\s+", " ", expected_sql).lower().strip()
 
         assert (
             expected_sql_check == generated_sql_generic
