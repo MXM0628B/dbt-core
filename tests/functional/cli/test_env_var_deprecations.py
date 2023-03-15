@@ -51,4 +51,9 @@ class TestDeprecatedEnvVars:
         log_file = read_file(logs_dir, "dbt.log").replace("\n", " ")
         dep_str = f"The environment variable `{old_env_var}` has been renamed as `{new_env_var}`"
 
-        assert dep_str in log_file
+        try:
+            assert dep_str in log_file
+        except Exception as e:
+            del os.environ[old_env_var]
+            raise e
+        del os.environ[old_env_var]

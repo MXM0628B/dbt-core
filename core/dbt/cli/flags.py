@@ -152,6 +152,10 @@ class Flags:
                                 f"No deprecated param name match from {dep_name} to {new_name}"
                             )
 
+                        # remove from defaulted set
+                        if new_name in params_assigned_from_default:
+                            params_assigned_from_default.remove(new_name)
+
                         # adding the deprecation warning function to the set
                         deprecated_env_vars[new_name] = renamed_env_var(
                             old_name=dep_opt.envvar,
