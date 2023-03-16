@@ -48,7 +48,7 @@ class TestDeprecatedEnvVars:
         os.environ[old_env_var] = old_val
         run_dbt([command])
         # replacing new lines with spaces accounts for text wrapping
-        log_file = read_file(logs_dir, "dbt.log").replace("\n", " ")
+        log_file = read_file(logs_dir, "dbt.log").replace("\n", " ").replace("\\n", " ")
         dep_str = f"The environment variable `{old_env_var}` has been renamed as `{new_env_var}`"
 
         try:
