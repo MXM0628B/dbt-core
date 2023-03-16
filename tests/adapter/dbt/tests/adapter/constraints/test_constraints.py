@@ -325,7 +325,7 @@ class BaseIncrementalConstraintsColumnsEqual(BaseConstraintsColumnsEqual):
         }
 
 
-class BaseIncrementalConstraintsRuntimeEnforcement(BaseConstraintsRuntimeDdlEnforcement):
+class BaseIncrementalConstraintsRuntimeDdlEnforcement(BaseConstraintsRuntimeDdlEnforcement):
     @pytest.fixture(scope="class")
     def models(self):
         return {
@@ -367,7 +367,9 @@ class TestTableConstraintsRollback(BaseConstraintsRollback):
     pass
 
 
-class TestIncrementalConstraintsRuntimeEnforcement(BaseIncrementalConstraintsRuntimeEnforcement):
+class TestIncrementalConstraintsRuntimeDdlEnforcement(
+    BaseIncrementalConstraintsRuntimeDdlEnforcement
+):
     pass
 
 
