@@ -14,7 +14,7 @@
   {%- set tmp_relation = make_temp_relation(target_relation) %}
 
   {#-- Find and validate the incremental strategy #}
-  {%- set strategy = config.get("incremental_strategy", default="merge") -%}
+  {%- set strategy = config.get("incremental_strategy", default="append") -%}
 
   {% set invalid_strategy_msg -%}
     Invalid incremental strategy provided: {{ strategy }}
